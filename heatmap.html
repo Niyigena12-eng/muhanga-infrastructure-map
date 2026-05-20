@@ -20,7 +20,7 @@
             attribution: '© OpenStreetMap, © CartoDB'
         }).addTo(map);
 
-        fetch('kigali_centroids.geojson')
+        fetch('muhanga_centroids.geojson')
             .then(response => response.json())
             .then(geojsonData => {
                 const heatPoints = geojsonData.features.map(feature => {
