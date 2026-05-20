@@ -12,17 +12,18 @@
             margin: 0;
             padding: 0;
         }
-        /* Style for the Top-Right Legend Box matching project requirements */
+        /* Optimized Legend Layout matching screenshot specifications */
         .legend {
-            padding: 10px 15px;
-            font: 13px/18px Arial, Helvetica, sans-serif;
-            background: rgba(255, 255, 255, 0.9);
+            padding: 12px 16px;
+            font: 13px/20px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255, 255, 255, 0.95);
             box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            border-radius: 5px;
+            border-radius: 6px;
             color: #333;
         }
         .legend h4 {
-            margin: 0 0 5px;
+            margin: 0 0 4px;
             font-size: 14px;
             color: #000;
             font-weight: bold;
@@ -34,11 +35,12 @@
             margin-bottom: 8px;
         }
         .legend i {
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             float: left;
-            margin-right: 8px;
-            opacity: 0.8;
+            margin-right: 10px;
+            margin-top: 3px;
+            opacity: 0.85;
             border-radius: 2px;
         }
     </style>
@@ -51,83 +53,81 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js"></script>
 
     <script>
-        // 3. Initialize Interactive Web Map centered directly over Kigali City
+        // Initialize Interactive Web Map centered directly over Kigali City
         var map = L.map('map').setView([-1.9550, 30.0600], 12);
 
-        // 4. Load the Clean OpenStreetMap Background Layer Context
+        // Load OpenStreetMap Background
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        // 5. Complete Integrated Dataset of all 35 Kigali Sectors with Coordinates
+        // Complete Integrated Dataset of all 35 Kigali Sectors
         var kigaliSectorsData = [
             // Nyarugenge District Sectors
-            { name: "Nyarugenge", lat: -1.9497, lng: 30.0597, density: "High density", weight: 1.2 },
-            { name: "Nyamirambo", lat: -1.9772, lng: 30.0414, density: "High density", weight: 1.2 },
-            { name: "Kimisagara", lat: -1.9472, lng: 30.0461, density: "High density", weight: 1.2 },
-            { name: "Gitega", lat: -1.9542, lng: 30.0528, density: "High density", weight: 1.2 },
-            { name: "Muhima", lat: -1.9419, lng: 30.0581, density: "High density", weight: 1.2 },
-            { name: "Rwezamenyo", lat: -1.9619, lng: 30.0494, density: "High density", weight: 1.2 },
-            { name: "Kanyinya", lat: -1.9161, lng: 30.0156, density: "Medium-low", weight: 0.4 },
+            { name: "Nyarugenge", lat: -1.9497, lng: 30.0597, density: "High density", weight: 1.5 },
+            { name: "Nyamirambo", lat: -1.9772, lng: 30.0414, density: "High density", weight: 1.5 },
+            { name: "Kimisagara", lat: -1.9472, lng: 30.0461, density: "High density", weight: 1.5 },
+            { name: "Gitega", lat: -1.9542, lng: 30.0528, density: "High density", weight: 1.5 },
+            { name: "Muhima", lat: -1.9419, lng: 30.0581, density: "High density", weight: 1.5 },
+            { name: "Rwezamenyo", lat: -1.9619, lng: 30.0494, density: "High density", weight: 1.5 },
+            { name: "Kanyinya", lat: -1.9161, lng: 30.0156, density: "Medium-low", weight: 0.5 },
             { name: "Mageragere", lat: -2.0436, lng: 30.0131, density: "Low density", weight: 0.2 },
-            { name: "Kigali", lat: -1.9694, lng: 29.9889, density: "Medium-low", weight: 0.4 },
+            { name: "Kigali", lat: -1.9694, lng: 29.9889, density: "Medium-low", weight: 0.5 },
 
             // Gasabo District Sectors
-            { name: "Kacyiru", lat: -1.9450, lng: 30.0883, density: "High density", weight: 1.2 },
-            { name: "Kimironko", lat: -1.9464, lng: 30.1264, density: "High density", weight: 1.2 },
-            { name: "Gisozi", lat: -1.9281, lng: 30.0767, density: "High density", weight: 1.2 },
-            { name: "Remera", lat: -1.9575, lng: 30.1142, density: "High density", weight: 1.2 },
-            { name: "Bumbogo", lat: -1.9056, lng: 30.1503, density: "Medium", weight: 0.6 },
-            { name: "Gatsata", lat: -1.9264, lng: 30.0494, density: "High density", weight: 1.2 },
-            { name: "Jabana", lat: -1.8686, lng: 30.0556, density: "Medium-low", weight: 0.4 },
-            { name: "Jali", lat: -1.8658, lng: 30.0169, density: "Medium-low", weight: 0.4 },
+            { name: "Kacyiru", lat: -1.9450, lng: 30.0883, density: "High density", weight: 1.5 },
+            { name: "Kimironko", lat: -1.9464, lng: 30.1264, density: "High density", weight: 1.5 },
+            { name: "Gisozi", lat: -1.9281, lng: 30.0767, density: "High density", weight: 1.5 },
+            { name: "Remera", lat: -1.9575, lng: 30.1142, density: "High density", weight: 1.5 },
+            { name: "Bumbogo", lat: -1.9056, lng: 30.1503, density: "Medium", weight: 0.8 },
+            { name: "Gatsata", lat: -1.9264, lng: 30.0494, density: "High density", weight: 1.5 },
+            { name: "Jabana", lat: -1.8686, lng: 30.0556, density: "Medium-low", weight: 0.5 },
+            { name: "Jali", lat: -1.8658, lng: 30.0169, density: "Medium-low", weight: 0.5 },
             { name: "Nduba", lat: -1.8483, lng: 30.0967, density: "Low density", weight: 0.2 },
-            { name: "Rusororo", lat: -1.9467, lng: 30.1983, density: "Medium", weight: 0.6 },
+            { name: "Rusororo", lat: -1.9467, lng: 30.1983, density: "Medium", weight: 0.8 },
             { name: "Rutunga", lat: -1.7828, lng: 30.1217, density: "Low density", weight: 0.2 },
-            { name: "Ndera", lat: -1.9353, lng: 30.1656, density: "Medium-high", weight: 0.9 },
-            { name: "Kinyinya", lat: -1.9167, lng: 30.1042, density: "Medium-high", weight: 0.9 },
+            { name: "Ndera", lat: -1.9353, lng: 30.1656, density: "Medium-high", weight: 1.1 },
+            { name: "Kinyinya", lat: -1.9167, lng: 30.1042, density: "Medium-high", weight: 1.1 },
             { name: "Kombogo", lat: -1.8214, lng: 30.1702, density: "Low density", weight: 0.2 },
             { name: "Gikomero", lat: -1.8083, lng: 30.2222, density: "Low density", weight: 0.2 },
 
             // Kicukiro District Sectors
-            { name: "Kicukiro", lat: -1.9792, lng: 30.1036, density: "High density", weight: 1.2 },
-            { name: "Nyarugunga", lat: -1.9794, lng: 30.1553, density: "Medium-high", weight: 0.9 },
-            { name: "Gahanga", lat: -2.0406, lng: 30.1058, density: "Medium-low", weight: 0.4 },
-            { name: "Kanombe", lat: -1.9686, lng: 30.1650, density: "High density", weight: 1.2 },
-            { name: "Kagarama", lat: -1.9961, lng: 30.1147, density: "Medium-high", weight: 0.9 },
-            { name: "Gatenga", lat: -1.9758, lng: 30.0864, density: "High density", weight: 1.2 },
-            { name: "Gikondo", lat: -1.9658, lng: 30.0750, density: "High density", weight: 1.2 },
-            { name: "Niboye", lat: -1.9747, lng: 30.1067, density: "High density", weight: 1.2 },
-            { name: "Masaka", lat: -1.9839, lng: 30.2053, density: "Medium", weight: 0.6 },
-            { name: "Kikoza", lat: -1.9944, lng: 30.0756, density: "Medium", weight: 0.6 },
-            { name: "Murama", lat: -2.0125, lng: 30.1604, density: "Medium-low", weight: 0.4 }
+            { name: "Kicukiro", lat: -1.9792, lng: 30.1036, density: "High density", weight: 1.5 },
+            { name: "Nyarugunga", lat: -1.9794, lng: 30.1553, density: "Medium-high", weight: 1.1 },
+            { name: "Gahanga", lat: -2.0406, lng: 30.1058, density: "Medium-low", weight: 0.5 },
+            { name: "Kanombe", lat: -1.9686, lng: 30.1650, density: "High density", weight: 1.5 },
+            { name: "Kagarama", lat: -1.9961, lng: 30.1147, density: "Medium-high", weight: 1.1 },
+            { name: "Gatenga", lat: -1.9758, lng: 30.0864, density: "High density", weight: 1.5 },
+            { name: "Gikondo", lat: -1.9658, lng: 30.0750, density: "High density", weight: 1.5 },
+            { name: "Niboye", lat: -1.9747, lng: 30.1067, density: "High density", weight: 1.5 },
+            { name: "Masaka", lat: -1.9839, lng: 30.2053, density: "Medium", weight: 0.8 },
+            { name: "Kikoza", lat: -1.9944, lng: 30.0756, density: "Medium", weight: 0.8 },
+            { name: "Murama", lat: -2.0125, lng: 30.1604, density: "Medium-low", weight: 0.5 }
         ];
 
-        // 6. Loop to Build Pin Markers and Format Spatial Array for Heat Engine
         var heatPointsArray = [];
 
         kigaliSectorsData.forEach(function(sector) {
-            // Place geometric pinpoint overlay markers
+            // Standard pointer pin markers
             L.marker([sector.lat, sector.lng])
                 .addTo(map)
                 .bindPopup("<b>" + sector.name + " Sector</b><br>Classification: " + sector.density);
 
-            // Structure coordinates with the relative census density weight
+            // Populate the heatmap vector tracking matrix
             heatPointsArray.push([sector.lat, sector.lng, sector.weight]);
         });
 
-        // 7. Inject and Render the Dynamic Heat Symbol Overlays
+        // Expanded bounds parameters to force visible glow overlays
         var heatLayer = L.heatLayer(heatPointsArray, {
-            radius: 38,
-            blur: 20,
-            maxZoom: 13,
+            radius: 55,
+            blur: 15,
+            maxZoom: 10,
             gradient: {0.2: 'blue', 0.4: 'cyan', 0.6: 'lime', 0.8: 'yellow', 1.0: 'red'}
         }).addTo(map);
 
-        // 8. Generate and Overlay the Legend Context Box (Top-Right)
+        // Overlay Legend Box 
         var legendBox = L.control({position: 'topright'});
-
         legendBox.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'legend');
             div.innerHTML += '<h4>Kigali Population Density</h4>';
@@ -139,7 +139,6 @@
             div.innerHTML += '<i style="background: blue"></i> Low density<br>';
             return div;
         };
-
         legendBox.addTo(map);
     </script>
 </body>
