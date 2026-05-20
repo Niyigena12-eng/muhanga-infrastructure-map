@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGE4165 - Kigali Population Heatmap</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        html, body { margin: 0; padding: 0; height: 100%; width: 100%; }
+        #map { height: 100vh; width: 100%; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js"></script>
+    <script>
+        const map = L.map('map').setView([-1.9500, 30.0600], 11);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap, © CartoDB'
+        }).addTo(map);
+
+        fetch('kigali_centroids.geojson')
+            .then(response => response.json())
+            .then(geojsonData => {
+                const heatPoints = geojsonData.features.map(feature => {
+                    const coords = feature.geometry.coordinates;
+                    const props = feature.properties;
+                    const population = parseFloat(props.Population || props.pop_2022 || 0);
+                    const area = parseFloat(props.Area_Km2 || props.area || 1); 
+                    const density = population / area; 
+                    return [coords[1], coords[0], density]; 
+                });
+                L.heatLayer(heatPoints, { radius: 35, blur: 20, maxZoom: 13, minOpacity: 0.5 }).addTo(map);
+            })
+            .catch(err => console.error("Data loading issue:", err));
+    </script>
+</body>
+</html>
