@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Muhanga Population Density Heatmap</title>
+    <title>Kigali City Population Density Heatmap</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -43,8 +43,8 @@
     <script src="https://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js"></script>
 
     <script>
-        // 1. Initialize Map centered on Muhanga District
-        var map = L.map('map').setView([-2.0794, 29.7422], 13);
+        // 1. Initialize Map centered precisely on Kigali City Coordinates
+        var map = L.map('map').setView([-1.9550, 30.0600], 12);
 
         // 2. Add the Clean, Light Background (Standard OpenStreetMap Style)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -52,31 +52,65 @@
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
-        // 3. Muhanga Sector Data Points directly inside the script
-        var muhangaData = [
-            { name: "Nyamabuye", lat: -2.0794, lng: 29.7422, count: 45000 },
-            { name: "Shyogwe", lat: -2.1050, lng: 29.7615, count: 41000 },
-            { name: "Cyeza", lat: -2.0520, lng: 29.7850, count: 32000 }
+        // 3. Kigali City Sectors Data Points (Centroids and 2022 Census Scales)
+        var kigaliData = [
+            // Nyarugenge District Sectors
+            { name: "Nyarugenge", lat: -1.9497, lng: 30.0597, count: 25000 },
+            { name: "Nyamirambo", lat: -1.9772, lng: 30.0414, count: 42000 },
+            { name: "Kimisagara", lat: -1.9472, lng: 30.0461, count: 38000 },
+            { name: "Gitega", lat: -1.9542, lng: 30.0528, count: 29000 },
+            { name: "Muhima", lat: -1.9419, lng: 30.0581, count: 22000 },
+            { name: "Rwezamenyo", lat: -1.9619, lng: 30.0494, count: 19000 },
+            { name: "Kanyinya", lat: -1.9161, lng: 30.0156, count: 15000 },
+            { name: "Mageragere", lat: -2.0436, lng: 30.0131, count: 12000 },
+            { name: "Kigali", lat: -1.9694, lng: 29.9889, count: 17000 },
+
+            // Gasabo District Sectors
+            { name: "Kacyiru", lat: -1.9450, lng: 30.0883, count: 28000 },
+            { name: "Kimironko", lat: -1.9464, lng: 30.1264, count: 34000 },
+            { name: "Gisozi", lat: -1.9281, lng: 30.0767, count: 26000 },
+            { name: "Remera", lat: -1.9575, lng: 30.1142, count: 31000 },
+            { name: "Bumbogo", lat: -1.9056, lng: 30.1503, count: 14000 },
+            { name: "Gatsata", lat: -1.9264, lng: 30.0494, count: 23000 },
+            { name: "Jabana", lat: -1.8686, lng: 30.0556, count: 11000 },
+            { name: "Jali", lat: -1.8658, lng: 30.0169, count: 13000 },
+            { name: "Nduba", lat: -1.8483, lng: 30.0967, count: 10000 },
+            { name: "Rusororo", lat: -1.9467, lng: 30.1983, count: 16000 },
+            { name: "Rutunga", lat: -1.7828, lng: 30.1217, count: 8000 },
+            { name: "Ndera", lat: -1.9353, lng: 30.1656, count: 21000 },
+            { name: "Kinyinya", lat: -1.9167, lng: 30.1042, count: 27000 },
+
+            // Kicukiro District Sectors
+            { name: "Kicukiro", lat: -1.9792, lng: 30.1036, count: 24000 },
+            { name: "Nyarugunga", lat: -1.9794, lng: 30.1553, count: 29000 },
+            { name: "Gahanga", lat: -2.0406, lng: 30.1058, count: 18000 },
+            { name: "Kanombe", lat: -1.9686, lng: 30.1650, count: 33000 },
+            { name: "Kagarama", lat: -1.9961, lng: 30.1147, count: 22000 },
+            { name: "Gatenga", lat: -1.9758, lng: 30.0864, count: 35000 },
+            { name: "Gikondo", lat: -1.9658, lng: 30.0750, count: 19000 },
+            { name: "Kikoza", lat: -1.9944, lng: 30.0756, count: 16000 },
+            { name: "Niboye", lat: -1.9747, lng: 30.1067, count: 21000 },
+            { name: "Masaka", lat: -1.9839, lng: 30.2053, count: 25000 }
         ];
 
         // 4. Create Heatmap Arrays
         var heatPoints = [];
         
         // 5. Add Point Markers and Prepare Heatmap Data
-        muhangaData.forEach(function(sector) {
+        kigaliData.forEach(function(sector) {
             // Add a standard pin marker for each sector center
             L.marker([sector.lat, sector.lng])
                 .addTo(map)
-                .bindPopup("<b>" + sector.name + " Sector</b><br>Estimated Population: " + sector.count);
+                .bindPopup("<b>" + sector.name + " Sector</b><br>Intensity Scale Value: " + sector.count);
 
-            // Add to heatmap array (Lat, Lng, Intensity based on population scale)
-            heatPoints.push([sector.lat, sector.lng, sector.count / 10000]);
+            // Add to heatmap array (Lat, Lng, Intensity scaling ratio parameter)
+            heatPoints.push([sector.lat, sector.lng, sector.count / 8000]);
         });
 
         // 6. Add the Heatmap Layer over the map
         var heat = L.heatLayer(heatPoints, {
-            radius: 40,
-            blur: 25,
+            radius: 35,
+            blur: 18,
             maxZoom: 15,
             gradient: {0.4: 'blue', 0.6: 'cyan', 0.7: 'lime', 0.8: 'yellow', 1.0: 'red'}
         }).addTo(map);
@@ -86,12 +120,12 @@
 
         legend.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'legend');
-            div.innerHTML += '<h4>Population Density</h4>';
-            div.innerHTML += '<i style="background: red"></i> High Density<br>';
-            div.innerHTML += '<i style="background: yellow"></i> Medium-High<br>';
+            div.innerHTML += '<h4>Kigali Population Density</h4>';
+            div.innerHTML += '<i style="background: red"></i> High density<br>';
+            div.innerHTML += '<i style="background: yellow"></i> Medium-high<br>';
             div.innerHTML += '<i style="background: lime"></i> Medium<br>';
-            div.innerHTML += '<i style="background: cyan"></i> Medium-Low<br>';
-            div.innerHTML += '<i style="background: blue"></i> Low Density<br>';
+            div.innerHTML += '<i style="background: cyan"></i> Medium-low<br>';
+            div.innerHTML += '<i style="background: blue"></i> Low density<br>';
             return div;
         };
 
